@@ -1,6 +1,6 @@
 # Messenger RESTful API
 
-Серверная часть дипломной работа по теме 
+Серверная часть дипломной работы по теме 
 "Разработка справочно-коммуникационной системы для пациентов стационара."
 
 ### Стэк технологий
@@ -17,7 +17,7 @@
 # Склонировать проект к себе
 git clone https://github.com/devalurum/messenger-system.git
 
-# поднять контейнер c Postgresql (+Postgis)
+# поднять контейнер c Postgresql(+Postgis) и PgAdmin 
 docker-compose up -d
 
 # загружает gradle wrapper
@@ -40,6 +40,6 @@ java -jar build/libs/messenger-system.jar
 ### Todo:
 - Реализовать аутентификацию и авторизацию через Spring Security.
 - Распределение ролей и доступа к методам API.
-- Дописать тесты.
-- Разобраться поднобнее с MapStruct
+- Написать тесты.
+- Разобраться подробнее с маппингом DTO через MapStruct+Lombok.
 - Рефакторинг.
