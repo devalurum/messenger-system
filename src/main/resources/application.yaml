@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /messanger-system
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: messenger-system
+  datasource:
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
+    open-in-view: true
+

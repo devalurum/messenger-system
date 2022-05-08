@@ -1,0 +1,44 @@
+version: '3'
+services:
+  postgres:
+    image: kartoza/postgis:14
+    container_name: postgres_14
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: postgres
+      POSTGRES_DB: postgres
+      ALLOW_IP_RANGE: '0.0.0.0/0'
+
+    networks:
+      back-end:
+        aliases:
+          - postgres
+    volumes:
+# put in explore Win10 \\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
+      - ./data:/var/lib/postgresql/data
+    expose:
+      - 5435
+    ports:
+      - "5435:5432"
+    command:
+      -p 5435
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: on-failure
+    links:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      back-end:
+        aliases:
+          - pgadmin
+
+networks:
+  back-end:

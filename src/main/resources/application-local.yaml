@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create # replace after first run on "none" or "update"
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: false
