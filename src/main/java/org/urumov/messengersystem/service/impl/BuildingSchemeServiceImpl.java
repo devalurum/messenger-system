@@ -3,9 +3,9 @@ package org.urumov.messengersystem.service.impl;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.urumov.messengersystem.dto.BuildingSchemeDto;
-import org.urumov.messengersystem.entities.BuildingScheme;
-import org.urumov.messengersystem.mapper.BuildingSchemeMapper;
+import org.urumov.messengersystem.domain.dto.BuildingSchemeDto;
+import org.urumov.messengersystem.domain.model.BuildingScheme;
+import org.urumov.messengersystem.domain.mapper.BuildingSchemeMapper;
 import org.urumov.messengersystem.repository.BuildingSchemeRepository;
 import org.urumov.messengersystem.service.BuildingSchemeService;
 

@@ -1,10 +1,9 @@
 package org.urumov.messengersystem.service;
 
-import org.urumov.messengersystem.dto.DepartmentDto;
-import org.urumov.messengersystem.dto.UserDto;
-import org.urumov.messengersystem.entities.Department;
+import org.urumov.messengersystem.domain.dto.DepartmentDto;
+import org.urumov.messengersystem.domain.dto.UserDto;
+import org.urumov.messengersystem.domain.model.Department;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface DepartmentService {

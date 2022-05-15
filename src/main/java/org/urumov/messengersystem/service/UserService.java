@@ -1,9 +1,8 @@
 package org.urumov.messengersystem.service;
 
 import com.google.maps.model.LatLng;
-import org.springframework.transaction.annotation.Transactional;
-import org.urumov.messengersystem.dto.UserDto;
-import org.urumov.messengersystem.entities.User;
+import org.urumov.messengersystem.domain.dto.UserDto;
+import org.urumov.messengersystem.domain.model.User;
 
 import java.util.List;
 

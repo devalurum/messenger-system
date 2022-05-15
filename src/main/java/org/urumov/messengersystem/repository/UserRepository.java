@@ -1,12 +1,12 @@
 package org.urumov.messengersystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.urumov.messengersystem.entities.User;
+import org.urumov.messengersystem.domain.model.User;
 
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByUsername(String username);
 
 }

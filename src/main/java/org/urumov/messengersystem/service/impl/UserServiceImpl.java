@@ -4,17 +4,18 @@ import com.google.maps.model.LatLng;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.urumov.messengersystem.dto.UserDto;
-import org.urumov.messengersystem.entities.User;
-import org.urumov.messengersystem.mapper.UserMapper;
-import org.urumov.messengersystem.repository.RoleRepository;
+import org.urumov.messengersystem.domain.dto.UserDto;
+import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.mapper.UserMapper;
 import org.urumov.messengersystem.repository.UserRepository;
 import org.urumov.messengersystem.service.UserService;
 import org.urumov.messengersystem.utils.PointReader;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PointReader pointReader;
-    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -39,11 +40,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User create(@NonNull UserDto userDto) {
-        User user = userMapper.toModel(userDto);
-        //user.setRoles(new ArrayList<>());
+        if (userRepository.findUserByUsername(userDto.getUsername()).isPresent()) {
+            throw new ValidationException("Username exists!");
+        }
 
-        //Role role = roleRepository.getRoleByName(ROLE_USER);
-        //user.getRoles().add(role);
+        User user = userMapper.toModel(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEnabled(true);
 
         return userRepository.save(user);
     }
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto getByEmail(String email) {
-        return userRepository.findUserByEmail(email)
+        return userRepository.findUserByUsername(email)
                 .map(userMapper::toDTO)
                 .orElseThrow(EntityNotFoundException::new);
     }

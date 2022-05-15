@@ -4,11 +4,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.urumov.messengersystem.dto.ItemFeedDto;
-import org.urumov.messengersystem.entities.ItemFeed;
-import org.urumov.messengersystem.entities.NewsFeed;
-import org.urumov.messengersystem.mapper.ItemFeedMapper;
-import org.urumov.messengersystem.mapper.NewsFeedMapper;
+import org.urumov.messengersystem.domain.dto.ItemFeedDto;
+import org.urumov.messengersystem.domain.model.ItemFeed;
+import org.urumov.messengersystem.domain.model.NewsFeed;
+import org.urumov.messengersystem.domain.mapper.ItemFeedMapper;
+import org.urumov.messengersystem.domain.mapper.NewsFeedMapper;
 import org.urumov.messengersystem.repository.ItemFeedRepository;
 import org.urumov.messengersystem.repository.NewsFeedRepository;
 import org.urumov.messengersystem.service.NewsFeedService;
@@ -23,7 +23,6 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
     private final NewsFeedRepository newsFeedRepository;
     private final ItemFeedRepository itemFeedRepository;
-    private final NewsFeedMapper newsFeedMapper;
     private final ItemFeedMapper itemFeedMapper;
 
     @Override

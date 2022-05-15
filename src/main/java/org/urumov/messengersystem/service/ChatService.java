@@ -1,10 +1,9 @@
 package org.urumov.messengersystem.service;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.urumov.messengersystem.dto.ChannelDto;
-import org.urumov.messengersystem.dto.MessageDto;
-import org.urumov.messengersystem.entities.Channel;
-import org.urumov.messengersystem.entities.Message;
+import org.urumov.messengersystem.domain.dto.ChannelDto;
+import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.model.Channel;
+import org.urumov.messengersystem.domain.model.Message;
 
 import java.util.List;
 
