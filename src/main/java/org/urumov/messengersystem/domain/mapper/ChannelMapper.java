@@ -1,11 +1,11 @@
-package org.urumov.messengersystem.mapper;
+package org.urumov.messengersystem.domain.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.urumov.messengersystem.dto.ChannelDto;
-import org.urumov.messengersystem.entities.Channel;
+import org.urumov.messengersystem.domain.dto.ChannelDto;
+import org.urumov.messengersystem.domain.model.Channel;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface ChannelMapper {
 
     ChannelDto toDto(Channel channelDto);

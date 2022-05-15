@@ -1,4 +1,4 @@
-package org.urumov.messengersystem.model.error;
+package org.urumov.messengersystem.domain.dto.error;
 
 import lombok.Data;
 

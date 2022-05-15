@@ -1,10 +1,10 @@
-package org.urumov.messengersystem.mapper;
+package org.urumov.messengersystem.domain.mapper;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.urumov.messengersystem.dto.DepartmentDto;
-import org.urumov.messengersystem.entities.Department;
+import org.urumov.messengersystem.domain.dto.DepartmentDto;
+import org.urumov.messengersystem.domain.model.Department;
 
 @Mapper(componentModel = "spring",
         uses = {UserMapper.class})
