@@ -1,9 +1,12 @@
 server:
   port: 8080
   servlet:
-    context-path: /messanger-system
+    context-path: /messenger-system
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   profiles:
     active: local
   application:
@@ -15,3 +18,19 @@ spring:
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
     open-in-view: true
 
+security:
+  jwt:
+    iis: org.urumov
+    secret: secretword
+    private-key: classpath:jwt/rsa.private.key
+    public-key: classpath:jwt/rsa.public.key
+    token-expired-seconds:
+      2592000 #1 месяц
+
+springdoc:
+  api-docs:
+    enabled:
+      true
+    path: /rest-api-docs
+  swagger-ui:
+    path: /swagger-ui
