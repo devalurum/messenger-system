@@ -1,7 +1,6 @@
 package org.urumov.messengersystem.utils;
 
 import com.google.maps.model.LatLng;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;
@@ -80,15 +79,21 @@ public class PointReader {
         return geometryFactory.createPoint(seq);
     }
 
-    public Point createPointFromLatLon(@NonNull LatLng latLng) {
-        CoordinateSequence seq = new PackedCoordinateSequenceFactory().create(1, 2);
-        seq.setOrdinate(0, CoordinateSequence.X, latLng.lat);
-        seq.setOrdinate(0, CoordinateSequence.Y, latLng.lng);
-        return geometryFactory.createPoint(seq);
+    public Point createPointFromLatLon(LatLng latLng) {
+        return Optional.ofNullable(latLng)
+                .map(latLon -> {
+                    CoordinateSequence seq = new PackedCoordinateSequenceFactory().create(1, 2);
+                    seq.setOrdinate(0, CoordinateSequence.X, latLon.lat);
+                    seq.setOrdinate(0, CoordinateSequence.Y, latLon.lng);
+                    return geometryFactory.createPoint(seq);
+                })
+                .orElseThrow(() -> new PointReaderException("LatLng is null"));
     }
 
-    public LatLng convertPointToLatLng(@NonNull Point point) {
-        return new LatLng(point.getX(), point.getY());
+    public LatLng convertPointToLatLng(Point point) {
+        return Optional.ofNullable(point)
+                .map(p -> new LatLng(p.getX(), p.getY()))
+                .orElseThrow(() -> new PointReaderException("Point is null"));
     }
 
 
