@@ -9,14 +9,13 @@ services:
       POSTGRES_PASS: postgres
       POSTGRES_DB: postgres
       ALLOW_IP_RANGE: '0.0.0.0/0'
-
     networks:
       back-end:
         aliases:
           - postgres
     volumes:
 # put in explore Win10 \\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
-      - ./data:/var/lib/postgresql/data
+      - geo-db-data:/var/lib/postgresql
     expose:
       - 5435
     ports:
@@ -42,3 +41,6 @@ services:
 
 networks:
   back-end:
+
+volumes:
+    db-data:
