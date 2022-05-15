@@ -1,7 +1,7 @@
-package org.urumov.messengersystem.entities;
-
+package org.urumov.messengersystem.domain.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,14 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "feed_item")
-public class ItemFeed {
+@Table
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "time")
+    @CreationTimestamp
     private LocalDateTime time;
 
     @Column(name = "message")
@@ -30,9 +31,10 @@ public class ItemFeed {
     private User sender;
 
     @ManyToOne
-    @JoinColumn
-    private Department department;
+    @JoinColumn(name = "receiver")
+    private User receiver;
 
     @ManyToOne
-    private NewsFeed newsFeed;
+    @JoinColumn
+    private Channel channel;
 }

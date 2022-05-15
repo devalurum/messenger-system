@@ -1,9 +1,8 @@
-package org.urumov.messengersystem.entities;
+package org.urumov.messengersystem.domain.model;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,25 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table
-public class Channel {
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 60, nullable = false)
+    @Column(nullable = false, length = 80)
     private String name;
 
-    @Column(name = "created_time")
-    private LocalDateTime createdTime;
-
     @OneToOne
-    private User creator;
+    private User admin;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     private List<User> users;
-
-    @OneToMany
-    private List<Message> messages;
 
 }

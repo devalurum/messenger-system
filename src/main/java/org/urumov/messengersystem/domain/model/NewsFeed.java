@@ -1,4 +1,4 @@
-package org.urumov.messengersystem.entities;
+package org.urumov.messengersystem.domain.model;
 
 
 import lombok.*;
