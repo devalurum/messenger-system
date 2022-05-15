@@ -2,6 +2,7 @@ package org.urumov.messengersystem.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,16 +12,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.urumov.messengersystem.dto.ChannelDto;
-import org.urumov.messengersystem.dto.MessageDto;
-import org.urumov.messengersystem.entities.Channel;
-import org.urumov.messengersystem.entities.Message;
-import org.urumov.messengersystem.model.error.ErrorResponse;
-import org.urumov.messengersystem.model.error.ValidationErrorResponse;
+import org.urumov.messengersystem.security.CurrentUser;
+import org.urumov.messengersystem.domain.dto.ChannelDto;
+import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.model.Channel;
+import org.urumov.messengersystem.domain.model.Message;
+import org.urumov.messengersystem.domain.model.Role;
+import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
+import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.service.ChatService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -117,9 +123,9 @@ public class ChatController {
     @PostMapping(value = "/channel/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendMessageToChannel(@PathVariable Long id,
-                                                     @RequestParam("senderId") Long senderId,
+                                                     @Parameter(hidden = true) @CurrentUser User user,
                                                      @RequestBody MessageDto request) {
-        chatService.addMessageToChannel(id, senderId, request);
+        chatService.addMessageToChannel(id, user.getId(), request);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -187,9 +193,9 @@ public class ChatController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = MessageDto.class))))
     )
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MessageDto> messagesFromPersonalityChat(@RequestParam("senderId") Long senderId,
+    public List<MessageDto> messagesFromPersonalityChat(@Parameter(hidden = true) @CurrentUser User user,
                                                         @RequestParam("receiverId") Long receiverId) {
-        return chatService.getMessagesFromPersonalityChat(senderId, receiverId);
+        return chatService.getMessagesFromPersonalityChat(user.getId(), receiverId);
     }
 
     @Operation(
@@ -200,12 +206,13 @@ public class ChatController {
                             content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class)))
             }
     )
-    @PostMapping(value = "/{idSender}/{idReceiver}", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "/{idReceiver}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> sendMessage(@PathVariable Long idSender,
+    public ResponseEntity<Void> sendMessage(@Parameter(hidden = true) @CurrentUser User user,
                                             @PathVariable Long idReceiver,
                                             @RequestBody MessageDto request) {
-        final Message message = chatService.saveMessage(idSender, idReceiver, request);
+
+        final Message message = chatService.saveMessage(user.getId(), idReceiver, request);
 
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

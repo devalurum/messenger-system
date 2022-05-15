@@ -12,13 +12,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.urumov.messengersystem.dto.DepartmentDto;
-import org.urumov.messengersystem.dto.UserDto;
-import org.urumov.messengersystem.entities.Department;
-import org.urumov.messengersystem.model.error.ErrorResponse;
-import org.urumov.messengersystem.model.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.dto.DepartmentDto;
+import org.urumov.messengersystem.domain.dto.UserDto;
+import org.urumov.messengersystem.domain.model.Department;
+import org.urumov.messengersystem.domain.model.Role;
+import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
+import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.service.DepartmentService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -91,7 +93,7 @@ public class DepartmentController {
                             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
-    @GetMapping(value = "/{name}/manager", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{name}/managerbyname", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDto manager(@PathVariable String name) {
         return departmentService.getDepartmentManager(name);
     }

@@ -14,12 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.urumov.messengersystem.dto.UserDto;
-import org.urumov.messengersystem.entities.User;
-import org.urumov.messengersystem.model.error.ErrorResponse;
-import org.urumov.messengersystem.model.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.dto.UserDto;
+import org.urumov.messengersystem.domain.model.Role;
+import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
+import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.service.UserService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -64,7 +66,7 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Requested data not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
-    @GetMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDto user(@PathVariable String email) {
         return userService.getByEmail(email);
     }
@@ -110,7 +112,7 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Requested data not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
-    @GetMapping(value = "/location/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}/location/", produces = MediaType.APPLICATION_JSON_VALUE)
     public LatLng userLocation(@PathVariable Long id) {
         return userService.getLocation(id);
     }
@@ -138,7 +140,7 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Requested data not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
-    @PatchMapping("/location/{id}")
+    @PatchMapping("/{id}/location/")
     public void updateLocationUser(@PathVariable Long id,
                                    @Valid @RequestBody LatLng latLng) {
         userService.updateLocation(id, latLng);

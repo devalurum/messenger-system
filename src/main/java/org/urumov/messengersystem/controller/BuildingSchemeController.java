@@ -11,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.urumov.messengersystem.dto.BuildingSchemeDto;
-import org.urumov.messengersystem.entities.BuildingScheme;
-import org.urumov.messengersystem.model.error.ErrorResponse;
-import org.urumov.messengersystem.model.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.dto.BuildingSchemeDto;
+import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
+import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.model.BuildingScheme;
 import org.urumov.messengersystem.service.BuildingSchemeService;
 
 import javax.validation.Valid;
