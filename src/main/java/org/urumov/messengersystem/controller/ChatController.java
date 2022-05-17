@@ -12,18 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.urumov.messengersystem.security.CurrentUser;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
+import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.domain.model.Channel;
 import org.urumov.messengersystem.domain.model.Message;
 import org.urumov.messengersystem.domain.model.Role;
 import org.urumov.messengersystem.domain.model.User;
-import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
-import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
+import org.urumov.messengersystem.security.CurrentUser;
 import org.urumov.messengersystem.service.ChatService;
 
 import javax.annotation.security.RolesAllowed;
@@ -63,8 +62,8 @@ public class ChatController {
     )
     @PostMapping(value = "/channel", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createChannel(@Valid @RequestBody ChannelDto request) {
-        final Channel channel = chatService.createChannel(request);
+    public ResponseEntity<Void> createChannel(@Parameter(hidden = true) @CurrentUser User user, @Valid @RequestBody ChannelDto request) {
+        final Channel channel = chatService.createChannel(request, user);
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

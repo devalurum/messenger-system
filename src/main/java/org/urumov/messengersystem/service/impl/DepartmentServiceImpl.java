@@ -5,9 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.urumov.messengersystem.domain.dto.DepartmentDto;
 import org.urumov.messengersystem.domain.dto.UserDto;
-import org.urumov.messengersystem.domain.model.Department;
 import org.urumov.messengersystem.domain.mapper.DepartmentMapper;
 import org.urumov.messengersystem.domain.mapper.UserMapper;
+import org.urumov.messengersystem.domain.model.Department;
+import org.urumov.messengersystem.domain.model.User;
 import org.urumov.messengersystem.repository.DepartmentRepository;
 import org.urumov.messengersystem.repository.UserRepository;
 import org.urumov.messengersystem.service.DepartmentService;
@@ -80,6 +81,33 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    public User setManagerForDepartment(long departmentId, long userId) {
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return userRepository.findById(userId)
+                .map(user -> {
+                    user.setDepartment(department);
+                    department.setAdmin(user);
+                    departmentRepository.save(department);
+                    return userRepository.save(user);
+                })
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public void removeManagerFromDepartment(long departmentId) {
+        departmentRepository.findById(departmentId)
+                .map(depart -> {
+                    depart.setAdmin(null);
+                    return departmentRepository.save(depart);
+                })
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
     public UserDto getDepartmentManager(String name) {
         return departmentRepository.findDepartmentByName(name)
                 .map(department -> userMapper.toDTO(department.getAdmin()))
@@ -98,7 +126,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                     return userRepository.save(user);
                 })
                 .orElseThrow(EntityNotFoundException::new);
-
 
     }
 

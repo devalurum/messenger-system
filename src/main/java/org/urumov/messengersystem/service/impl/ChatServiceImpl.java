@@ -41,8 +41,9 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public Channel createChannel(@NonNull ChannelDto channelDto) {
+    public Channel createChannel(@NonNull ChannelDto channelDto, User creator) {
         Channel channel = channelMapper.toModel(channelDto);
+        channel.setCreator(creator);
         return channelRepository.save(channel);
     }
 

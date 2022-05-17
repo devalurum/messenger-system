@@ -1,6 +1,7 @@
 package org.urumov.messengersystem.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,14 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.ItemFeedDto;
-import org.urumov.messengersystem.domain.model.ItemFeed;
-import org.urumov.messengersystem.domain.model.NewsFeed;
-import org.urumov.messengersystem.domain.model.Role;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.model.ItemFeed;
+import org.urumov.messengersystem.domain.model.NewsFeed;
+import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.security.CurrentUser;
 import org.urumov.messengersystem.service.NewsFeedService;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -58,6 +59,18 @@ public class NewsFeedController {
         return newsFeedService.getItemFeed(id, idItem);
     }
 
+
+    @Operation(
+            summary = "Get all item news feed from department",
+            responses = @ApiResponse(responseCode = "200",
+                    description = "News feed from department",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ItemFeedDto.class))))
+    )
+    @GetMapping(value = "/{id}/department/{departmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ItemFeedDto> itemsFeedFromDepartment(@PathVariable Long id, @PathVariable Long departmentId) {
+        return newsFeedService.getItemsFeedFromDepartment(id, departmentId);
+    }
+
     @Operation(
             summary = "Create new item feed",
             responses = {
@@ -68,8 +81,10 @@ public class NewsFeedController {
     )
     @PostMapping(value = "/{id}/item/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createItem(@PathVariable Long id, @Valid @RequestBody ItemFeedDto request) {
-        final ItemFeed itemFeed = newsFeedService.createItem(id, request);
+    public ResponseEntity<Void> createItem(@PathVariable Long id,
+                                           @Parameter(hidden = true) @CurrentUser User user,
+                                           @Valid @RequestBody ItemFeedDto request) {
+        final ItemFeed itemFeed = newsFeedService.createItem(id, request, user);
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -88,8 +103,7 @@ public class NewsFeedController {
                             content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class)))
             }
     )
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createNewsFeed() {
         final NewsFeed newsFeed = newsFeedService.createNewsFeed();
         final URI uri = ServletUriComponentsBuilder
@@ -128,6 +142,20 @@ public class NewsFeedController {
     @DeleteMapping(value = "/{id}")
     public void deleteItems(@PathVariable Long id) {
         newsFeedService.deleteAllItems(id);
+    }
+
+    @Operation(
+            summary = "Remove all items from Department by IDs",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Items for requested ID is removed from Department"),
+                    @ApiResponse(responseCode = "404", description = "News feed not found",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            }
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(value = "/{id}/department/{departmentId}")
+    public void deleteItemsFromDepartment(@PathVariable Long id, @PathVariable Long departmentId) {
+        newsFeedService.deleteAllItemsFromDepartment(id, departmentId);
     }
 
 }

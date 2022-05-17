@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.DepartmentDto;
 import org.urumov.messengersystem.domain.dto.UserDto;
-import org.urumov.messengersystem.domain.model.Department;
-import org.urumov.messengersystem.domain.model.Role;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
+import org.urumov.messengersystem.domain.model.Department;
 import org.urumov.messengersystem.service.DepartmentService;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -98,6 +96,28 @@ public class DepartmentController {
         return departmentService.getDepartmentManager(name);
     }
 
+
+    @Operation(
+            summary = "Set manager to department",
+            responses = @ApiResponse(responseCode = "200", description = "Manager set to department")
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("/{departmentId}/manager/{userId}")
+    public void setManagerToDepartment(@PathVariable Integer departmentId, @PathVariable Integer userId) {
+        departmentService.setManagerForDepartment(departmentId, userId);
+    }
+
+    @Operation(
+            summary = "Remove manager from department",
+            responses = @ApiResponse(responseCode = "204", description = "manager is removed from department")
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{departmentId}/manager")
+    public void removeManagerFromDepartment(@PathVariable Integer departmentId) {
+        departmentService.removeManagerFromDepartment(departmentId);
+    }
+
+
     @Operation(
             summary = "Get all users from departments",
             responses = @ApiResponse(responseCode = "200",
@@ -146,7 +166,6 @@ public class DepartmentController {
         departmentService.update(request);
     }
 
-
     @Operation(
             summary = "Add user to department",
             responses = @ApiResponse(responseCode = "204", description = "User added to department")
@@ -167,13 +186,14 @@ public class DepartmentController {
         departmentService.removeUserFromDepartment(departmentId, userId);
     }
 
+
     @Operation(
             summary = "Remove department by ID",
             responses = @ApiResponse(responseCode = "204", description = "Department for requested ID is removed")
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteDepartment(@PathVariable Long id) {
         departmentService.deleteById(id);
     }
 }

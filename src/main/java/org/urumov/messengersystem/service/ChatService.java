@@ -4,6 +4,7 @@ import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
 import org.urumov.messengersystem.domain.model.Channel;
 import org.urumov.messengersystem.domain.model.Message;
+import org.urumov.messengersystem.domain.model.User;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ChatService {
 
     ChannelDto getChannelById(long id);
 
-    Channel createChannel(ChannelDto channelDto);
+    Channel createChannel(ChannelDto channelDto, User creator);
 
     Channel updateChannel(ChannelDto channelDto);
 
