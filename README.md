@@ -42,9 +42,11 @@ java -jar build/libs/messenger-system.jar
    1. login: admin@admin.com
    2. password: admin
       1. host: host.docker.internal (регистрация базы данных)
-   
+* Поля time, id, sender при post/patch запросах к сущностям игнорируются, т.к генерируются на стороне сервера.
+* Формат времени в OpenAPI генерируются неправильно (пока не понятно как поменять паттерн), поэтому поля time лучше удалять при отправке запросов.
 ### Todo:
-- Разобраться, почему не работает RolesAllowed/Secured/PreAuthorize в контроллерах
-- Написать тесты.
+- Разобраться, почему не работает RolesAllowed/Secured/PreAuthorize в контроллерах.
+- Написать тесты. Попробовать Testcontainers либо H2Gis для тестирования репозиториев.
+- Разделить DTO на Requests и Responses (Возможно), для удаления невалидных полей при запросах.
 - Разобраться подробнее с маппингом DTO через MapStruct+Lombok.
 - Рефакторинг.
