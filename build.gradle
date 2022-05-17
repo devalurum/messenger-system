@@ -97,7 +97,7 @@ configurations {
 }
 
 tasks.named("bootJar") {
-    mainClass = 'org.devalurum.messengersystem.MessengerSystemApplication'
+    mainClass = 'org.urumov.messengersystem.MessengerSystemApplication'
     archiveName = "$baseName.$extension"
 }
 
