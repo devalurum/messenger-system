@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
-@EnableWebMvc
 public class MessengerSystemApplication {
 
     public static void main(String[] args) {

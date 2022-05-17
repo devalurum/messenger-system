@@ -12,7 +12,6 @@ public interface ItemFeedRepository extends JpaRepository<ItemFeed, Long> {
 
     List<ItemFeed> findAllByNewsFeed_Id(Long id);
 
-    void deleteItemFeedByIdAndNewsFeed_Id(Long id, Long newsId);
+    List<ItemFeed> findAllByNewsFeed_IdAndDepartment_Id(Long id, Long departmentId);
 
-    void deleteAllByNewsFeed_Id(Long newsId);
 }
