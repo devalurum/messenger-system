@@ -2,7 +2,6 @@ package org.urumov.messengersystem.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -31,9 +30,6 @@ import org.urumov.messengersystem.security.JwtAuthenticationFilter;
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
@@ -77,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authenticationEntryPoint(unauthorizedHandler));
 
         http.authorizeRequests()
-                .antMatchers(String.format("%s/api/v1/auth/**", contextPath)).permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
 
