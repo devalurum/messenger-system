@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 @Builder
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -22,10 +23,13 @@ public class Department {
     @Column(nullable = false, length = 80)
     private String name;
 
-    @OneToOne
+    @OneToOne(mappedBy = "departmentAdmin")
     private User admin;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department")
     private List<User> users;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "department")
+    private List<ItemFeed> itemFeeds;
 
 }

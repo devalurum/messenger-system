@@ -15,7 +15,6 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
 
-
     @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
     @Mapping(target = "password", ignore = true)
     @Mapping(source = "authorities", target = "roles")
@@ -23,6 +22,7 @@ public abstract class UserMapper {
 
     @InheritInverseConfiguration
     @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
+    @Mapping(target = "id", source = "id", ignore = true)
     @Mapping(source = "roles", target = "authorities", qualifiedByName = "stringToRole")
     public abstract User toModel(UserDto dto);
 

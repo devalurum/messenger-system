@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @Builder
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -34,7 +35,7 @@ public class Channel {
     @OneToMany
     private List<User> users;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Message> messages;
 
 }

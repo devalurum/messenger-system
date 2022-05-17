@@ -1,10 +1,7 @@
 package org.urumov.messengersystem.domain.model;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +9,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
@@ -43,6 +43,7 @@ public class User implements UserDetails {
     private LocalDateTime modifiedAt;
 
     @Column(nullable = false)
+    @Builder.Default
     private boolean enabled = true;
 
     @Id
@@ -63,6 +64,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     @Column(length = 7, columnDefinition = "varchar(7) default 'UNKNOWN'")
     private Gender gender = Gender.UNKNOWN;
 
@@ -72,13 +74,15 @@ public class User implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "image")
-    private String image;
-
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private Collection<Role> authorities = List.of(Role.USER);
+
+    @OneToOne
+    @JoinColumn
+    private Department departmentAdmin;
 
     @ManyToOne
     @JoinColumn
@@ -87,6 +91,8 @@ public class User implements UserDetails {
     @Column(name = "coordinates")
     private Point coordinates;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
+    private List<ItemFeed> itemFeeds;
 
     @Override
     public boolean isAccountNonExpired() {

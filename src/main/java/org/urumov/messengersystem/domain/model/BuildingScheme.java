@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

@@ -11,5 +11,6 @@ public interface MessageMapper {
     MessageDto toDto(Message message);
 
     @Mapping(target = "time", ignore = true)
+    @Mapping(target = "id", source = "id", ignore = true)
     Message toModel(MessageDto message);
 }

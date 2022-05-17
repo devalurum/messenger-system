@@ -1,10 +1,12 @@
 package org.urumov.messengersystem.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,17 +16,13 @@ import java.time.LocalDateTime;
 public class ItemFeedDto implements Serializable {
     private final Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime time;
 
     @NotBlank
     private final String message;
 
-    @NotBlank
-    private final UserDto sender;
+    private final Long departmentId;
 
-    @NotBlank
-    private final DepartmentDto department;
-
-    @NotBlank
-    private final NewsFeedDto newsFeed;
+    private final Long senderId;
 }

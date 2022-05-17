@@ -1,10 +1,13 @@
 package org.urumov.messengersystem.domain.dto;
 
-import com.google.maps.model.LatLng;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.urumov.messengersystem.domain.model.Role;
 import org.urumov.messengersystem.domain.model.Gender;
 
 import javax.validation.constraints.Email;
@@ -38,9 +41,13 @@ public class UserDto implements Serializable {
     @Size(min = 2, max = 50)
     private final String lastName;
     private final Gender gender;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private final LocalDate dob;
+
     private final String phone;
-    private final String image;
     private final Set<String> roles;
 
     /*@JsonSerialize(using = GeometrySerializer.class)

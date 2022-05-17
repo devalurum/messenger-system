@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @Builder
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -20,6 +21,6 @@ public class NewsFeed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "newsFeed")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "newsFeed")
     private List<ItemFeed> feeds;
 }

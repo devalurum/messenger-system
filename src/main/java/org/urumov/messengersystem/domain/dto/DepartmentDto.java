@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -19,6 +20,4 @@ public class DepartmentDto implements Serializable {
     @Size(min = 3, max = 255)
     private final String name;
 
-    @NotBlank
-    private final UserDto manager;
 }

@@ -19,7 +19,4 @@ public class ChannelDto implements Serializable {
     @Size(min = 3, max = 255)
     private final String name;
 
-    @NotBlank
-    @Size(min = 3, max = 255)
-    private final UserDto creator;
 }

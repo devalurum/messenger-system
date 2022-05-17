@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,7 +29,7 @@ public class ItemFeed {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "sender")
+    @JoinColumn
     private User sender;
 
     @ManyToOne
