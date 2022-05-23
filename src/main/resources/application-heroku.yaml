@@ -11,9 +11,9 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: none # replace after first run on "none" or "update"
+      ddl-auto: create # replace after first run on "none" or "update"
     show-sql: true
-    generate-ddl: false
+    generate-ddl: true
     properties:
       hibernate:
         format_sql: true
