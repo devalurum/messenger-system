@@ -21,7 +21,6 @@ public class SecurityAuditorAware {
         return () -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = null;
-            log.info("AuditorAware: {}", authentication);
             if (authentication != null && authentication.getPrincipal() instanceof User) {
                 user = (User) authentication.getPrincipal();
             }
