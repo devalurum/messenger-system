@@ -1,11 +1,15 @@
 package org.urumov.messengersystem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +22,9 @@ import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.stream.Collectors.joining;
@@ -27,7 +33,10 @@ import static java.util.stream.Collectors.toList;
 @Hidden
 @RestControllerAdvice(annotations = RestController.class)
 @Slf4j
-public class ExceptionController {
+@RequiredArgsConstructor
+public class ExceptionController implements AuthenticationEntryPoint {
+
+    private final ObjectMapper mapper;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -58,6 +67,19 @@ public class ExceptionController {
     @ExceptionHandler(AccessDeniedException.class)
     public ErrorResponse handleAccessDeniedException(AccessDeniedException exception) {
         return new ErrorResponse(exception.getMessage());
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
+    public void commence(HttpServletRequest httpServletRequest,
+                         HttpServletResponse response,
+                         AuthenticationException e) throws IOException {
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.getWriter().write(mapper.writeValueAsString(
+                new ErrorDescription("Sorry, You're not authorized.", e.getMessage())));
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.urumov.messengersystem.security.JwtAuthenticationEntryPoint;
+import org.urumov.messengersystem.controller.ExceptionController;
 import org.urumov.messengersystem.security.JwtAuthenticationFilter;
 
 @EnableWebSecurity
@@ -31,9 +31,9 @@ import org.urumov.messengersystem.security.JwtAuthenticationFilter;
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final ExceptionController exceptionController;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(unauthorizedHandler));
+                        .authenticationEntryPoint(exceptionController));
 
         http.authorizeRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
