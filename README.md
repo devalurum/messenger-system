@@ -10,12 +10,13 @@
 - Spring Data JPA
 - Spring Web
 - Swagger (OpenAPI 3.0)
-- Postgresql
+- Postgresql (+PostGis)
 - Docker
 - MapStruct
 - Lombok
 - Gradle
 
+<!--
 ## Сборка приложения
 ```shell script
 # Склонировать проект к себе
@@ -33,10 +34,21 @@ gradlew clean build
 # запуск Spring сервиса
 java -jar build/libs/messenger-system.jar 
 ```
-## OpenAPI описание
+-->
+## Deployment
+Приложение задеплоено на heroku по адресу:
 
+https://messenger-restful.herokuapp.com/messenger-system/swagger-ui/index.html
+## Сборка приложения
+```shell script
+# поднять контейнеры c PostgreSQL(+Postgis) и Spring Boot 
+docker-compose up -d
+```
+Открыть в браузере Swagger: http://localhost:8080/messanger-system/swagger-ui/index.html
+
+## OpenAPI описание
 1. Откройте адрес в браузере http://localhost:8080/messanger-system/swagger-ui/index.html
-2. Выполните регистрацию пользователя http://localhost/messenger-system/swagger-ui/index.html#/Authentication/register
+2. Выполните регистрацию пользователя http://localhost:8080/messenger-system/swagger-ui/index.html#/Authentication/register
 3. Скопируйте токен и авторизируетесь в Swagger UI. После чего **token** будет вставлен автоматически в запросы.
 4. pgAdmin (GUI для postgresql) http://localhost:5050
    1. login: admin@admin.com
@@ -45,7 +57,7 @@ java -jar build/libs/messenger-system.jar
 * Поля time, id, sender при post/patch запросах к сущностям игнорируются, т.к генерируются на стороне сервера.
 * Формат времени в OpenAPI генерируются неправильно (пока не понятно как поменять паттерн), поэтому поля time лучше удалять при отправке запросов.
 ### Todo:
-- Разобраться, почему не работает RolesAllowed/Secured/PreAuthorize в контроллерах.
+- Разобраться, почему не работает аннотация RolesAllowed в контроллерах.
 - Написать тесты. Попробовать Testcontainers либо H2Gis для тестирования репозиториев.
 - Разделить DTO на Requests и Responses (Возможно), для удаления невалидных полей при запросах.
 - Разобраться подробнее с маппингом DTO через MapStruct+Lombok.
