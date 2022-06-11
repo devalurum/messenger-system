@@ -41,6 +41,9 @@ java -jar build/libs/messenger-system.jar
 https://messenger-restful.herokuapp.com/messenger-system/swagger-ui/index.html
 ## Сборка приложения
 ```shell script
+# Склонировать проект, либо просто скачать файл "docker-compose.yaml"
+git clone https://github.com/devalurum/messenger-system.git
+
 # поднять контейнеры c PostgreSQL(+Postgis) и Spring Boot 
 docker-compose up -d
 ```
