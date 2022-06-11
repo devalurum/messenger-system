@@ -12,20 +12,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
-import org.urumov.messengersystem.domain.model.Channel;
-import org.urumov.messengersystem.domain.model.Message;
-import org.urumov.messengersystem.domain.model.Role;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.Channel;
+import org.urumov.messengersystem.domain.entity.Message;
+import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.security.CurrentUser;
 import org.urumov.messengersystem.service.ChatService;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -34,6 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/chats")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('USER','MANAGER', 'ADMIN')")
 public class ChatController {
 
     private final ChatService chatService;
@@ -62,6 +62,7 @@ public class ChatController {
     )
     @PostMapping(value = "/channel", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public ResponseEntity<Void> createChannel(@Parameter(hidden = true) @CurrentUser User user, @Valid @RequestBody ChannelDto request) {
         final Channel channel = chatService.createChannel(request, user);
         final URI uri = ServletUriComponentsBuilder
@@ -86,6 +87,7 @@ public class ChatController {
     )
     @PatchMapping(value = "/channel", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void updateChannel(@Valid @RequestBody ChannelDto request) {
         chatService.updateChannel(request);
     }
@@ -96,6 +98,7 @@ public class ChatController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/channel/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteChannel(@PathVariable Long id) {
         chatService.deleteChannelById(id);
     }
@@ -160,6 +163,7 @@ public class ChatController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/channel/{idChannel}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteAllMessageFromChannel(@PathVariable Long idChannel) {
         chatService.deleteAllMessagesFromChannel(idChannel);
     }
@@ -170,6 +174,7 @@ public class ChatController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/channel/{id}/{userId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void addUserToChannel(@PathVariable Long id, @PathVariable Long userId) {
         chatService.addUserToChannel(id, userId);
     }
@@ -180,6 +185,7 @@ public class ChatController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/channel/{id}/{userId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void removeUserFromChannel(@PathVariable Long id, @PathVariable Long userId) {
         chatService.removeUserFromChannel(id, userId);
     }

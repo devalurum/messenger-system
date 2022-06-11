@@ -1,7 +1,7 @@
 package org.urumov.messengersystem.service;
 
 import org.urumov.messengersystem.domain.dto.BuildingSchemeDto;
-import org.urumov.messengersystem.domain.model.BuildingScheme;
+import org.urumov.messengersystem.domain.entity.BuildingScheme;
 
 public interface BuildingSchemeService {
 

@@ -2,9 +2,9 @@ package org.urumov.messengersystem.service;
 
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
-import org.urumov.messengersystem.domain.model.Channel;
-import org.urumov.messengersystem.domain.model.Message;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.Channel;
+import org.urumov.messengersystem.domain.entity.Message;
+import org.urumov.messengersystem.domain.entity.User;
 
 import java.util.List;
 

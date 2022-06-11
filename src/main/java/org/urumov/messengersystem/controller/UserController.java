@@ -12,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.UserDto;
-import org.urumov.messengersystem.domain.model.Role;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.service.UserService;
@@ -31,6 +32,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @Slf4j
+@PreAuthorize("hasAnyAuthority('USER','MANAGER', 'ADMIN')")
 public class UserController {
 
     private final UserService userService;

@@ -10,13 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.DepartmentDto;
 import org.urumov.messengersystem.domain.dto.UserDto;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
-import org.urumov.messengersystem.domain.model.Department;
+import org.urumov.messengersystem.domain.entity.Department;
 import org.urumov.messengersystem.service.DepartmentService;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/departments")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('USER','MANAGER', 'ADMIN')")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -103,6 +105,7 @@ public class DepartmentController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/{departmentId}/manager/{userId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void setManagerToDepartment(@PathVariable Integer departmentId, @PathVariable Integer userId) {
         departmentService.setManagerForDepartment(departmentId, userId);
     }
@@ -113,6 +116,7 @@ public class DepartmentController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{departmentId}/manager")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void removeManagerFromDepartment(@PathVariable Integer departmentId) {
         departmentService.removeManagerFromDepartment(departmentId);
     }
@@ -139,6 +143,7 @@ public class DepartmentController {
             }
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public ResponseEntity<Void> createDepartment(@Valid @RequestBody DepartmentDto request) {
         final Department department = departmentService.save(request);
         final URI uri = ServletUriComponentsBuilder
@@ -162,6 +167,7 @@ public class DepartmentController {
             }
     )
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void updateDepartment(@Valid @RequestBody DepartmentDto request) {
         departmentService.update(request);
     }
@@ -172,6 +178,7 @@ public class DepartmentController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/{departmentId}/{userId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void addUserToDepartment(@PathVariable Integer departmentId, @PathVariable Integer userId) {
         departmentService.addUserToDepartment(departmentId, userId);
     }
@@ -182,6 +189,7 @@ public class DepartmentController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{departmentId}/{userId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void removeUserFromDepartment(@PathVariable Integer departmentId, @PathVariable Integer userId) {
         departmentService.removeUserFromDepartment(departmentId, userId);
     }
@@ -193,6 +201,7 @@ public class DepartmentController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteDepartment(@PathVariable Long id) {
         departmentService.deleteById(id);
     }

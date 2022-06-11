@@ -1,7 +1,7 @@
 package org.urumov.messengersystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.urumov.messengersystem.domain.model.Department;
+import org.urumov.messengersystem.domain.entity.Department;
 
 import java.util.Optional;
 

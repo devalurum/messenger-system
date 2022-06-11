@@ -1,10 +1,9 @@
 package org.urumov.messengersystem.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.urumov.messengersystem.domain.dto.ItemFeedDto;
-import org.urumov.messengersystem.domain.model.ItemFeed;
-import org.urumov.messengersystem.domain.model.NewsFeed;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.ItemFeed;
+import org.urumov.messengersystem.domain.entity.NewsFeed;
+import org.urumov.messengersystem.domain.entity.User;
 
 import java.util.List;
 

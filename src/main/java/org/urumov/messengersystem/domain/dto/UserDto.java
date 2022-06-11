@@ -8,7 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.urumov.messengersystem.domain.model.Gender;
+import org.urumov.messengersystem.domain.entity.Gender;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package org.urumov.messengersystem.domain.model;
+package org.urumov.messengersystem.domain.entity;
 
 public enum Gender {
     UNKNOWN,

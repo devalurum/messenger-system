@@ -2,7 +2,7 @@ package org.urumov.messengersystem.service;
 
 import com.google.maps.model.LatLng;
 import org.urumov.messengersystem.domain.dto.UserDto;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.User;
 
 import java.util.List;
 

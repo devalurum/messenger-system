@@ -9,8 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.urumov.messengersystem.domain.model.Role;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.service.impl.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;

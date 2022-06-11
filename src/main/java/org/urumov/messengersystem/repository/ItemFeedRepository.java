@@ -1,7 +1,7 @@
 package org.urumov.messengersystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.urumov.messengersystem.domain.model.ItemFeed;
+import org.urumov.messengersystem.domain.entity.ItemFeed;
 
 import java.util.List;
 import java.util.Optional;

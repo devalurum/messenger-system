@@ -9,12 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.BuildingSchemeDto;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
-import org.urumov.messengersystem.domain.model.BuildingScheme;
+import org.urumov.messengersystem.domain.entity.BuildingScheme;
 import org.urumov.messengersystem.service.BuildingSchemeService;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/schemes")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('USER','MANAGER', 'ADMIN')")
 public class BuildingSchemeController {
 
     private final BuildingSchemeService buildingSchemeService;
@@ -48,6 +50,7 @@ public class BuildingSchemeController {
             }
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public ResponseEntity<Void> createScheme(@Valid @RequestBody BuildingSchemeDto request) {
         final BuildingScheme buildingScheme = buildingSchemeService.save(request);
         final URI uri = ServletUriComponentsBuilder
@@ -68,6 +71,7 @@ public class BuildingSchemeController {
             }
     )
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void updateScheme(@Valid @RequestBody BuildingSchemeDto request) {
         buildingSchemeService.update(request);
     }
@@ -78,6 +82,7 @@ public class BuildingSchemeController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{name}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteUser(@PathVariable String name) {
         buildingSchemeService.delete(name);
     }

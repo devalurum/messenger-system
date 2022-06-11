@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.User;
 
 import java.time.Instant;
 import java.util.Date;

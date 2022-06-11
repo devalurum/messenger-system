@@ -1,4 +1,4 @@
-package org.urumov.messengersystem.domain.model;
+package org.urumov.messengersystem.domain.entity;
 
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;

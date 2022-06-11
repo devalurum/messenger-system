@@ -15,7 +15,7 @@ import org.urumov.messengersystem.domain.dto.AuthRequest;
 import org.urumov.messengersystem.domain.dto.JwtAuthResponse;
 import org.urumov.messengersystem.domain.dto.UserDto;
 import org.urumov.messengersystem.domain.mapper.UserMapper;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.repository.UserRepository;
 import org.urumov.messengersystem.service.AuthService;
 

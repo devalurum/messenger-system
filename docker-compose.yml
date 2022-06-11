@@ -1,8 +1,20 @@
 version: '3'
 services:
+  messenger-system:
+    image: devalurum/messenger-system
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    networks:
+      back-end:
+        aliases:
+          - messenger-system
+    depends_on:
+      - postgres
+
   postgres:
     image: kartoza/postgis:14
-    container_name: postgres_14
+    container_name: postgis
     restart: on-failure
     environment:
       POSTGRES_USER: postgres
@@ -15,7 +27,8 @@ services:
           - postgres
     volumes:
 # put in explore Win10 \\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
-      - geo-db-data:/var/lib/postgresql
+      - ./data:/var/lib/postgresql/data
+      - ./postgis/:/docker-entrypoint-initdb.d/
     expose:
       - 5435
     ports:

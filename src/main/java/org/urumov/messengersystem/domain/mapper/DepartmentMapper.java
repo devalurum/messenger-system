@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.urumov.messengersystem.domain.dto.DepartmentDto;
-import org.urumov.messengersystem.domain.model.Department;
+import org.urumov.messengersystem.domain.entity.Department;
 
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {

@@ -1,4 +1,4 @@
-package org.urumov.messengersystem.domain.model;
+package org.urumov.messengersystem.domain.entity;
 
 import lombok.experimental.FieldNameConstants;
 import org.springframework.security.core.GrantedAuthority;

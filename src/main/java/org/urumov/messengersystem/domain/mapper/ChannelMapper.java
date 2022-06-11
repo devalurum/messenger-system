@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
-import org.urumov.messengersystem.domain.model.Channel;
+import org.urumov.messengersystem.domain.entity.Channel;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface ChannelMapper {

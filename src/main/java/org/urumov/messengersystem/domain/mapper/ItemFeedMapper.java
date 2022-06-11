@@ -1,20 +1,9 @@
 package org.urumov.messengersystem.domain.mapper;
 
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.urumov.messengersystem.domain.dto.ItemFeedDto;
-import org.urumov.messengersystem.domain.model.Department;
-import org.urumov.messengersystem.domain.model.ItemFeed;
-import org.urumov.messengersystem.domain.model.Role;
-import org.urumov.messengersystem.repository.DepartmentRepository;
-
-import java.util.Collections;
-import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
+import org.urumov.messengersystem.domain.entity.ItemFeed;
 
 @Mapper(componentModel = "spring")
 public abstract class ItemFeedMapper {

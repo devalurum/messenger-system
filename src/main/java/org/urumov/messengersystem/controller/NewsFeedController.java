@@ -11,14 +11,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.ItemFeedDto;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
-import org.urumov.messengersystem.domain.model.ItemFeed;
-import org.urumov.messengersystem.domain.model.NewsFeed;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.ItemFeed;
+import org.urumov.messengersystem.domain.entity.NewsFeed;
+import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.security.CurrentUser;
 import org.urumov.messengersystem.service.NewsFeedService;
 
@@ -30,6 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/newsfeed")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('USER','MANAGER', 'ADMIN')")
 public class NewsFeedController {
 
     private final NewsFeedService newsFeedService;
@@ -81,6 +83,7 @@ public class NewsFeedController {
     )
     @PostMapping(value = "/{id}/item/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public ResponseEntity<Void> createItem(@PathVariable Long id,
                                            @Parameter(hidden = true) @CurrentUser User user,
                                            @Valid @RequestBody ItemFeedDto request) {
@@ -104,6 +107,7 @@ public class NewsFeedController {
             }
     )
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public ResponseEntity<Void> createNewsFeed() {
         final NewsFeed newsFeed = newsFeedService.createNewsFeed();
         final URI uri = ServletUriComponentsBuilder
@@ -126,6 +130,7 @@ public class NewsFeedController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}/item/{idItem}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteItem(@PathVariable Long id, @PathVariable Long idItem) {
         newsFeedService.deleteItem(id, idItem);
     }
@@ -140,6 +145,7 @@ public class NewsFeedController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteItems(@PathVariable Long id) {
         newsFeedService.deleteAllItems(id);
     }
@@ -154,6 +160,7 @@ public class NewsFeedController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}/department/{departmentId}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public void deleteItemsFromDepartment(@PathVariable Long id, @PathVariable Long departmentId) {
         newsFeedService.deleteAllItemsFromDepartment(id, departmentId);
     }

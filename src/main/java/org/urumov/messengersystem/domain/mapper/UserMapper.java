@@ -2,8 +2,8 @@ package org.urumov.messengersystem.domain.mapper;
 
 import org.mapstruct.*;
 import org.urumov.messengersystem.domain.dto.UserDto;
-import org.urumov.messengersystem.domain.model.Role;
-import org.urumov.messengersystem.domain.model.User;
+import org.urumov.messengersystem.domain.entity.Role;
+import org.urumov.messengersystem.domain.entity.User;
 
 import java.util.Collections;
 import java.util.Set;
