@@ -36,12 +36,13 @@ java -jar build/libs/messenger-system.jar
 ```
 -->
 ## Deployment
-Приложение задеплоено на heroku по адресу:
+Приложение задеплоено на [heroku](https://messenger-restful.herokuapp.com/messenger-system/swagger-ui/index.html
+) по адресу:
 
 https://messenger-restful.herokuapp.com/messenger-system/swagger-ui/index.html
 ## Сборка приложения
 ```shell script
-# Склонировать проект, либо просто скачать файл "docker-compose.yaml"
+# Склонировать проект, либо просто скачать файл "docker-compose.yml"
 git clone https://github.com/devalurum/messenger-system.git
 
 # поднять контейнеры c PostgreSQL(+Postgis) и Spring Boot 
