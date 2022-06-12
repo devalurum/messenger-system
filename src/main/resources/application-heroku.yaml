@@ -10,7 +10,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create # replace after first run on "none" or "update"
+      ddl-auto: update # replace after first run on "none" or "update"
     show-sql: true
     generate-ddl: true
     properties:
