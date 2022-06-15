@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.dto.UserDto;
 import org.urumov.messengersystem.domain.entity.Channel;
 import org.urumov.messengersystem.domain.entity.Message;
 import org.urumov.messengersystem.domain.entity.User;
 import org.urumov.messengersystem.domain.mapper.ChannelMapper;
 import org.urumov.messengersystem.domain.mapper.MessageMapper;
+import org.urumov.messengersystem.domain.mapper.UserMapper;
 import org.urumov.messengersystem.repository.ChannelRepository;
 import org.urumov.messengersystem.repository.MessageRepository;
 import org.urumov.messengersystem.repository.UserRepository;
@@ -29,6 +31,7 @@ public class ChatServiceImpl implements ChatService {
     private final UserRepository userRepository;
     private final ChannelMapper channelMapper;
     private final MessageMapper messageMapper;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
@@ -36,6 +39,14 @@ public class ChatServiceImpl implements ChatService {
         return channelRepository.findById(id)
                 .map(channelMapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public List<ChannelDto> getAllChannels() {
+        return channelRepository.findAll().stream()
+                .map(channelMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
@@ -162,6 +173,14 @@ public class ChatServiceImpl implements ChatService {
                     return ch;
                 })
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public List<UserDto> getAllPersonalitiesChats(long id) {
+        return messageRepository.findAllBySender_Id(id).stream()
+                .map(message -> userMapper.toDTO(message.getReceiver()))
+                .collect(Collectors.toList());
     }
 
 

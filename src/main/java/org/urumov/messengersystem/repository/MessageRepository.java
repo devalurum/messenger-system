@@ -15,4 +15,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findMessagesBetweenTwoUsers (@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 
     Optional<Message> findByChannel_IdAndId(Long channelId, Long idMessage);
+
+    List<Message> findAllBySender_Id(Long id);
 }

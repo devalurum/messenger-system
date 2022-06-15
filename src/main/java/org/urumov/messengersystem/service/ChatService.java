@@ -1,7 +1,9 @@
 package org.urumov.messengersystem.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.dto.UserDto;
 import org.urumov.messengersystem.domain.entity.Channel;
 import org.urumov.messengersystem.domain.entity.Message;
 import org.urumov.messengersystem.domain.entity.User;
@@ -11,6 +13,8 @@ import java.util.List;
 public interface ChatService {
 
     ChannelDto getChannelById(long id);
+
+    List<ChannelDto> getAllChannels();
 
     Channel createChannel(ChannelDto channelDto, User creator);
 
@@ -31,6 +35,8 @@ public interface ChatService {
     void addUserToChannel(long channelId, long userId);
 
     void removeUserFromChannel(long channelId, long userId);
+
+    List<UserDto> getAllPersonalitiesChats(long id);
 
     List<MessageDto> getMessagesFromPersonalityChat(long senderId, long receiverId);
 

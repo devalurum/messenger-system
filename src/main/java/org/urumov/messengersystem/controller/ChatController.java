@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.urumov.messengersystem.domain.dto.ChannelDto;
 import org.urumov.messengersystem.domain.dto.MessageDto;
+import org.urumov.messengersystem.domain.dto.UserDto;
 import org.urumov.messengersystem.domain.dto.error.ErrorResponse;
 import org.urumov.messengersystem.domain.dto.error.ValidationErrorResponse;
 import org.urumov.messengersystem.domain.entity.Channel;
@@ -51,6 +52,29 @@ public class ChatController {
     public ChannelDto channel(@PathVariable Long id) {
         return chatService.getChannelById(id);
     }
+
+    @Operation(
+            summary = "Get all channels",
+            responses = @ApiResponse(responseCode = "200",
+                    description = "Channels",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChannelDto.class))))
+    )
+    @GetMapping(value = "/channels/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ChannelDto> channels() {
+        return chatService.getAllChannels();
+    }
+
+    @Operation(
+            summary = "Get all users with whom there is a chat",
+            responses = @ApiResponse(responseCode = "200",
+                    description = "Chats",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserDto.class))))
+    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserDto> chats(@Parameter(hidden = true) @CurrentUser User user) {
+        return chatService.getAllPersonalitiesChats(user.getId());
+    }
+
 
     @Operation(
             summary = "Create new channel",
