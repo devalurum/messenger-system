@@ -11,6 +11,8 @@ import org.urumov.messengersystem.service.BuildingSchemeService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,14 @@ public class BuildingSchemeServiceImpl implements BuildingSchemeService {
         return buildingRepository.findById(name)
                 .map(buildingMapper::toDTO)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public List<BuildingSchemeDto> getAll() {
+        return buildingRepository.findAll().stream()
+                .map(buildingMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class BuildingScheme {

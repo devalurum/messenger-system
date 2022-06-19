@@ -1,6 +1,7 @@
 package org.urumov.messengersystem.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,6 +21,7 @@ import org.urumov.messengersystem.service.BuildingSchemeService;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @Tag(name = "Building scheme REST API operations")
 @RestController
@@ -40,6 +42,17 @@ public class BuildingSchemeController {
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BuildingSchemeDto scheme(@PathVariable String name) {
         return buildingSchemeService.getByName(name);
+    }
+
+    @Operation(
+            summary = "Get all schemes build",
+            responses = @ApiResponse(responseCode = "200",
+                    description = "Build schemes",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = BuildingSchemeDto.class))))
+    )
+    @GetMapping(value = "/channels/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BuildingSchemeDto> schemes() {
+        return buildingSchemeService.getAll();
     }
 
     @Operation(
