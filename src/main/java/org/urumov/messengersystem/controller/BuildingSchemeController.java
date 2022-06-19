@@ -50,7 +50,7 @@ public class BuildingSchemeController {
                     description = "Build schemes",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = BuildingSchemeDto.class))))
     )
-    @GetMapping(value = "/channels/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BuildingSchemeDto> schemes() {
         return buildingSchemeService.getAll();
     }
